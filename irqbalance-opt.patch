@@ -1,0 +1,17 @@
+--- irqbalance/Makefile.orig	Sun Feb 23 16:01:10 2003
++++ irqbalance/Makefile	Mon Jul 14 10:59:43 2003
+@@ -1,10 +1,10 @@
+ 
+ irqbalance: irqbalance.c cpuinfo.c prototypes.h Makefile procinterrupts.c classify.c policy.c 
+-	gcc -g -O2 -W -Wall irqbalance.c cpuinfo.c procinterrupts.c classify.c policy.c  -o irqbalance
++	$(CC) $(OPT) -W -Wall irqbalance.c cpuinfo.c procinterrupts.c classify.c policy.c  -o irqbalance
+ 
+ debug: irqbalance.c cpuinfo.c prototypes.h Makefile procinterrupts.c classify.c policy.c  debug.c
+-	gcc -g -W -Wall irqbalance.c cpuinfo.c procinterrupts.c classify.c policy.c debug.c -DDEBUG -o irqbalance
++	$(CC) -g $(OPT) -W -Wall irqbalance.c cpuinfo.c procinterrupts.c classify.c policy.c debug.c -DDEBUG -o irqbalance
+ 
+ 
+ clean:
+-	rm -f *~ irqbalance 
+\ No newline at end of file
++	rm -f *~ irqbalance 
