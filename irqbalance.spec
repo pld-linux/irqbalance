@@ -5,7 +5,7 @@ Release:	1
 License:	OSL v1.1
 Group:		Applications/System
 Source0:	http://people.redhat.com/arjanv/irqbalance/%{name}-%{version}.tar.gz
-# Source0-md5:	db5416b6675cae70804d700f42b1a671
+# Source0-md5:	4dcdc15c7583fb6e82e498178f405208
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
