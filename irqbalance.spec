@@ -1,4 +1,5 @@
 Summary:	Balancing of IRQs between multiple CPUs
+Summary(pl):	Rozdzielanie IRQ pomiêdzy wiele procesorów
 Name:		irqbalance
 Version:	0.06
 Release:	1
@@ -10,6 +11,9 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 Balancing of IRQs between multiple CPUs.
+
+%description -l pl
+Narzêdzie do rozdzielania przerwañ IRQ pomiêdzy wiele procesorów.
 
 %prep
 %setup -q -n %{name}
