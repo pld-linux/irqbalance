@@ -9,6 +9,8 @@ Source0:	http://people.redhat.com/arjanv/irqbalance/%{name}-%{version}.tar.gz
 # Source0-md5:	1f225b73a01380955231b77d9be60c7a
 Source1:	%{name}.init
 Patch0:		%{name}-opt.patch
+PreReq:		rc-scripts
+Requires(post,preun):	/sbin/chkconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
