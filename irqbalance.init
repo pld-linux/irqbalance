@@ -1,0 +1,63 @@
+#!/bin/sh
+# $Id$
+#
+# irqbalance:	Sets up fbcon video modes.
+#
+#
+# chkconfig:	2345 1 99
+# description:	irqbalance
+#
+# config:	/etc/sysconfig/irqbalance
+
+# Source function library
+. /etc/rc.d/init.d/functions
+
+# Get service config
+if [ -f /etc/sysconfig/irqbalance ]; then
+	. /etc/sysconfig/irqbalance
+fi
+
+# useless on UP
+if [ "(LC_ALL=C grep "^processor.*:.*[0-9]" /proc/cpuinfo | wc -l)" -lt 2 ]; then
+    exit 0
+fi
+
+is_yes "$IRQBALANCE_ONE_SHOT" && IRQBALANCE_OPT="${IRQBALANCE_OPT} --oneshot"
+
+# See how we were called.
+case "$1" in
+  start)
+	# Check if service is already running?
+	if [ ! -f /var/lock/subsys/irqbalance ]; then
+	    msg_starting irqbalance
+	    daemon irqbalance ${IRQBALANCE_OPT}
+	    RETVAL=$?
+	    [ $RETVAL -eq 0 ] && ! is_yes "$IRQBALANCE_ONE_SHOT" && touch /var/lock/subsys/irqbalance
+	else
+    	    msg_already_running irqbalance
+	fi
+	;;
+  stop)
+  	if ! is_yes "$IRQBALANCE_ONE_SHOT"; then
+		if [ -f /var/lock/subsys/irqbalance ]; then
+		    	killproc irqbalance
+			rm -f /var/lock/subsys/irqbalance
+		else
+			msg_not_running irqbalance
+		fi
+	fi
+	;;
+  status)
+  	status irqbalance
+	RESULT=$?
+	;;
+  restart|force-reload)
+	$0 stop
+	$0 start
+	;;
+  *)
+	msg_usage "$0 {start|stop|restart|force-reload|status}"
+	exit 3
+esac
+
+exit 0
