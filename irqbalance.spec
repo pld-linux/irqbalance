@@ -1,12 +1,12 @@
 Summary:	Balancing of IRQs between multiple CPUs
 Summary(pl):	Rozdzielanie IRQ pomiêdzy wiele procesorów
 Name:		irqbalance
-Version:	0.10
+Version:	0.12
 Release:	1
 License:	OSL v1.1
 Group:		Applications/System
 Source0:	http://people.redhat.com/arjanv/irqbalance/%{name}-%{version}.tar.gz
-# Source0-md5:	aa22849eb4f3735c983adc9612f65003
+# Source0-md5:	1f225b73a01380955231b77d9be60c7a
 Source1:	%{name}.init
 Patch0:		%{name}-opt.patch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
