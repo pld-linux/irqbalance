@@ -18,7 +18,7 @@ if [ -f /etc/sysconfig/irqbalance ]; then
 fi
 
 # useless on UP
-if [ "(LC_ALL=C grep "^processor.*:.*[0-9]" /proc/cpuinfo | wc -l)" -lt 2 ]; then
+if [ "$(LC_ALL=C grep "^processor.*:.*[0-9]" /proc/cpuinfo | wc -l)" -lt 2 ]; then
     exit 0
 fi
 
@@ -40,10 +40,11 @@ case "$1" in
   stop)
   	if ! is_yes "$IRQBALANCE_ONE_SHOT"; then
 		if [ -f /var/lock/subsys/irqbalance ]; then
-		    	killproc irqbalance
-			rm -f /var/lock/subsys/irqbalance
+		    msg_stopping irqbalance
+    		    killproc irqbalance
+		    rm -f /var/lock/subsys/irqbalance
 		else
-			msg_not_running irqbalance
+		    msg_not_running irqbalance
 		fi
 	fi
 	;;
