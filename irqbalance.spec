@@ -2,11 +2,12 @@ Summary:	Balancing of IRQs between multiple CPUs
 Summary(pl):	Rozdzielanie IRQ pomiêdzy wiele procesorów
 Name:		irqbalance
 Version:	0.08
-Release:	2
+Release:	3
 License:	OSL v1.1
 Group:		Applications/System
 Source0:	http://people.redhat.com/arjanv/irqbalance/%{name}-%{version}.tar.gz
 # Source0-md5:	da39e9ff770b01329796ad8258e972d6
+Source1:	%{name}.init
 Patch0:		%{name}-opt.patch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -27,16 +28,34 @@ Narzêdzie do rozdzielania przerwañ IRQ pomiêdzy wiele procesorów.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man1}
+install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man1,/etc/rc.d/init.d}
 
 install %{name} $RPM_BUILD_ROOT%{_sbindir}
 install %{name}.1 $RPM_BUILD_ROOT%{_mandir}/man1
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/%{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post
+/sbin/chkconfig --add irqbalance
+if [ -f /var/lock/subsys/irqbalance ]; then
+        /etc/rc.d/init.d/irqbalance restart 1>&2
+else
+        echo "Run \"/etc/rc.d/init.d/irqbalance start\" to start irqbalance daemon."
+fi
+
+%preun
+if [ "$1" = "0" ]; then
+        if [ -f /var/lock/subsys/irqbalance ]; then
+                /etc/rc.d/init.d/irqbalance stop 1>&2
+        fi
+        /sbin/chkconfig --del irqbalance
+fi
 
 %files
 %defattr(644,root,root,755)
 %doc Changelog TODO
 %attr(755,root,root) %{_sbindir}/*
 %{_mandir}/man1/*
+%attr(754,root,root) /etc/rc.d/init.d/irqbalance
