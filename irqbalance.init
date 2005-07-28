@@ -4,7 +4,7 @@
 # irqbalance:	Sets up fbcon video modes.
 #
 #
-# chkconfig:	2345 1 99
+# chkconfig:	2345 01 99
 # description:	irqbalance
 #
 # config:	/etc/sysconfig/irqbalance
