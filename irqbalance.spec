@@ -9,8 +9,9 @@ Source0:	http://people.redhat.com/arjanv/irqbalance/%{name}-%{version}.tar.gz
 # Source0-md5:	1f225b73a01380955231b77d9be60c7a
 Source1:	%{name}.init
 Patch0:		%{name}-opt.patch
-PreReq:		rc-scripts
+BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post,preun):	/sbin/chkconfig
+Requires:	rc-scripts
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -41,18 +42,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/chkconfig --add irqbalance
-if [ -f /var/lock/subsys/irqbalance ]; then
-        /etc/rc.d/init.d/irqbalance restart 1>&2
-else
-        echo "Run \"/etc/rc.d/init.d/irqbalance start\" to start irqbalance daemon."
-fi
+%service irqbalance restart "irqbalance daemon"
 
 %preun
 if [ "$1" = "0" ]; then
-        if [ -f /var/lock/subsys/irqbalance ]; then
-                /etc/rc.d/init.d/irqbalance stop 1>&2
-        fi
-        /sbin/chkconfig --del irqbalance
+	%service irqbalance stop
+	/sbin/chkconfig --del irqbalance
 fi
 
 %files
