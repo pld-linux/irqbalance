@@ -22,7 +22,7 @@ Narzêdzie do rozdzielania przerwañ IRQ pomiêdzy wiele procesorów.
 
 %prep
 %setup -q -n %{name}
-%patch -p1
+%patch0 -p1
 
 %build
 %{__make} %{?debug:debug} \
