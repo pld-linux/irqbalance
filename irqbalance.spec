@@ -1,28 +1,39 @@
 Summary:	Balancing of IRQs between multiple CPUs
 Summary(pl):	Rozdzielanie IRQ pomiêdzy wiele procesorów
 Name:		irqbalance
-Version:	0.12
-Release:	2
+Version:	0.13
+Release:	1
 License:	OSL v1.1
 Group:		Applications/System
-Source0:	http://people.redhat.com/arjanv/irqbalance/%{name}-%{version}.tar.gz
-# Source0-md5:	1f225b73a01380955231b77d9be60c7a
+#Source0:	http://people.redhat.com/arjanv/irqbalance/%{name}-%{version}.tar.gz
+# Currently no known URL - taken from FC6 src.rpm:
+Source0:	%{name}-%{version}.tar.gz
+# Source0-md5:	837f1d69e9b6ef0a58bbd4cf4e0d7f28
 Source1:	%{name}.init
 Patch0:		%{name}-opt.patch
+Patch1:		%{name}-classes.patch
+Patch2:		%{name}-norebalance-zeroints.patch
+Patch3:		%{name}-pie.patch
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post,preun):	/sbin/chkconfig
 Requires:	rc-scripts
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-Balancing of IRQs between multiple CPUs.
+irqbalance is a daemon that evenly distributes IRQ load across
+multiple CPUs for enhanced performance.
 
 %description -l pl
-Narzêdzie do rozdzielania przerwañ IRQ pomiêdzy wiele procesorów.
+Narzêdzie do rozdzielania przerwañ IRQ pomiêdzy wiele procesorów
+w celu zwiêkszenia wydajno¶ci systemu.
 
 %prep
 %setup -q -n %{name}
 %patch0 -p1
+%patch1 -p2
+%patch2 -p2
+# For gcc4 ?
+#%patch3 -p2
 
 %build
 %{__make} %{?debug:debug} \
