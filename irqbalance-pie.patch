@@ -1,0 +1,10 @@
+--- kernel-utils-2.4/irqbalance/Makefile.orig	2003-10-24 10:51:51.000000000 +0200
++++ kernel-utils-2.4/irqbalance/Makefile	2004-02-16 11:49:15.315444000 +0100
+@@ -1,6 +1,6 @@
+ 
+ irqbalance: irqbalance.c cpuinfo.c prototypes.h Makefile procinterrupts.c classify.c policy.c 
+-	$(CC) $(CFLAGS) irqbalance.c cpuinfo.c procinterrupts.c classify.c policy.c  -o irqbalance
++	$(CC) $(CFLAGS) -Os -Wl,-z,relro,-z,now -pie -fpie irqbalance.c cpuinfo.c procinterrupts.c classify.c policy.c  -o irqbalance
+ 
+ debug: irqbalance.c cpuinfo.c prototypes.h Makefile procinterrupts.c classify.c policy.c  debug.c
+ 	$(CC) irqbalance.c cpuinfo.c procinterrupts.c classify.c policy.c debug.c -DDEBUG -o irqbalance

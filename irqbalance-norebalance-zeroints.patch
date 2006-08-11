@@ -1,0 +1,11 @@
+--- irqbalance-1.12/irqbalance/procinterrupts.c~	2006-02-26 18:38:18.000000000 -0500
++++ irqbalance-1.12/irqbalance/procinterrupts.c	2006-02-26 18:39:13.000000000 -0500
+@@ -134,6 +134,8 @@ void activate_irqtable(void)
+ 			continue;
+ 		if (interrupts[i].type == IRQ_INACTIVE)
+ 			continue;
++		if (interrupts[i].delta == 0)
++			continue;
+ 		snprintf(filename,255,"/proc/irq/%i/smp_affinity",i);
+ 		file = fopen(filename, "w");
+ 		if (file==NULL)
