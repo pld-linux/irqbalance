@@ -3,11 +3,11 @@ Summary(pl):	Rozdzielanie IRQ pomiêdzy wiele procesorów
 Name:		irqbalance
 Version:	0.13
 Release:	1
-License:	OSL v1.1
+License:	GPL
 Group:		Applications/System
 #Source0:	http://people.redhat.com/arjanv/irqbalance/%{name}-%{version}.tar.gz
 # Currently no known URL - taken from FC6 src.rpm:
-Source0:	%{name}-%{version}.tar.gz
+Source0:	http://www.blues.gda.pl/SOURCES/%{name}-%{version}.tar.gz
 # Source0-md5:	837f1d69e9b6ef0a58bbd4cf4e0d7f28
 Source1:	%{name}.init
 Patch0:		%{name}-opt.patch
