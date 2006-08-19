@@ -4,7 +4,7 @@
  
  irqbalance: irqbalance.c cpuinfo.c prototypes.h Makefile procinterrupts.c classify.c policy.c 
 -	$(CC) $(CFLAGS) irqbalance.c cpuinfo.c procinterrupts.c classify.c policy.c  -o irqbalance
-+	$(CC) $(CFLAGS) -Os -Wl,-z,relro,-z,now -pie -fpie irqbalance.c cpuinfo.c procinterrupts.c classify.c policy.c  -o irqbalance
++	$(CC) $(CFLAGS) -Wl,-z,relro,-z,now -pie -fpie irqbalance.c cpuinfo.c procinterrupts.c classify.c policy.c  -o irqbalance
  
  debug: irqbalance.c cpuinfo.c prototypes.h Makefile procinterrupts.c classify.c policy.c  debug.c
  	$(CC) irqbalance.c cpuinfo.c procinterrupts.c classify.c policy.c debug.c -DDEBUG -o irqbalance
