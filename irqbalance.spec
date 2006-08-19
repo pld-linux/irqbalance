@@ -14,6 +14,8 @@ Patch0:		%{name}-opt.patch
 Patch1:		%{name}-classes.patch
 Patch2:		%{name}-norebalance-zeroints.patch
 Patch3:		%{name}-pie.patch
+# due to -fpie
+BuildRequires:	gcc >= 5:3.4
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post,preun):	/sbin/chkconfig
 Requires:	rc-scripts
@@ -32,13 +34,13 @@ w celu zwiêkszenia wydajno¶ci systemu.
 %patch0 -p1
 %patch1 -p2
 %patch2 -p2
-# For gcc4 ?
-#%patch3 -p2
+%patch3 -p2
 
 %build
-%{__make} %{?debug:debug} \
+%{__make} \
 	CC="%{__cc}" \
-	CFLAGS="%{rpmcflags}"
+	CFLAGS="%{rpmcflags}%{?debug: debug.c -DDEBUG}" \
+	LDFLAGS="%{rpmldflags}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
