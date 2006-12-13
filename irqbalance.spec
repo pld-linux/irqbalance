@@ -10,9 +10,9 @@ Source0:	http://www.irqbalance.org/releases/%{name}-%{version}.tar.gz
 Source1:	%{name}.init
 Patch0:		%{name}-opt.patch
 Patch1:		%{name}-pie.patch
-# due to -fpie
 URL:		http://www.irqbalance.org/
 BuildRequires:	glib2-devel
+# due to -fpie
 BuildRequires:	gcc >= 5:3.4
 BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRequires:	xorg-util-gccmakedep
