@@ -1,11 +1,20 @@
---- irqbalance/Makefile.orig	2003-10-24 10:51:51.000000000 +0200
-+++ irqbalance/Makefile	2003-12-15 01:12:59.403007304 +0100
-@@ -3,7 +3,7 @@
- 	$(CC) $(CFLAGS) irqbalance.c cpuinfo.c procinterrupts.c classify.c policy.c  -o irqbalance
+diff -urN irqbalance-0.55.org/Makefile irqbalance-0.55/Makefile
+--- irqbalance-0.55.org/Makefile	2006-12-05 14:15:23.000000000 +0100
++++ irqbalance-0.55/Makefile	2006-12-13 17:55:44.632291750 +0100
+@@ -1,11 +1,14 @@
+-CFLAGS+=-g -Os -D_FORTIFY_SOURCE=2 -Wall -W `pkg-config --cflags glib-2.0` 
++
++OPT=-g -Os
++
++CFLAGS = $(OPT) -D_FORTIFY_SOURCE=2 -Wall -W `pkg-config --cflags glib-2.0`
  
- debug: irqbalance.c cpuinfo.c prototypes.h Makefile procinterrupts.c classify.c policy.c  debug.c
--	$(CC) irqbalance.c cpuinfo.c procinterrupts.c classify.c policy.c debug.c -DDEBUG -o irqbalance
-+	$(CC) $(CFLAGS) irqbalance.c cpuinfo.c procinterrupts.c classify.c policy.c debug.c -DDEBUG -o irqbalance
+ all: irqbalance
  
- irqbalance.1: irqbalance.xml
- 	xmlto man irqbalance.xml
+ LIBS=bitmap.o irqbalance.o cputree.o  procinterrupts.o irqlist.o placement.o activate.o network.o powermode.o numa.o classify.o
+ 
+ irqbalance: .depend $(LIBS)
+-	gcc  -g -O2 -D_FORTIFY_SOURCE=2 -Wall  `pkg-config --libs glib-2.0` $(LIBS) -o irqbalance 
++	$(CC) $(CFLAGS) $(LDFLAGS) -D_FORTIFY_SOURCE=2 -Wall $(LIBS) `pkg-config --libs glib-2.0` -o irqbalance 
+ 
+ clean:
+ 	rm -f irqbalance *~ *.o .depend
