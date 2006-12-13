@@ -1,22 +1,21 @@
 Summary:	Balancing of IRQs between multiple CPUs
 Summary(pl):	Rozdzielanie IRQ pomiêdzy wiele procesorów
 Name:		irqbalance
-Version:	0.13
+Version:	0.55
 Release:	1
 License:	GPL
 Group:		Applications/System
-#Source0:	http://people.redhat.com/arjanv/irqbalance/%{name}-%{version}.tar.gz
-# Currently no known URL - taken from FC6 src.rpm:
-Source0:	http://www.blues.gda.pl/SOURCES/%{name}-%{version}.tar.gz
-# Source0-md5:	837f1d69e9b6ef0a58bbd4cf4e0d7f28
+Source0:	http://www.irqbalance.org/releases/%{name}-%{version}.tar.gz
+# Source0-md5:	9f6b314ff1fdc14173abeb40592d4edf
 Source1:	%{name}.init
 Patch0:		%{name}-opt.patch
-Patch1:		%{name}-classes.patch
-Patch2:		%{name}-norebalance-zeroints.patch
-Patch3:		%{name}-pie.patch
+Patch1:		%{name}-pie.patch
 # due to -fpie
+URL:		http://www.irqbalance.org/
+BuildRequires:	glib2-devel
 BuildRequires:	gcc >= 5:3.4
 BuildRequires:	rpmbuild(macros) >= 1.268
+BuildRequires:	xorg-util-gccmakedep
 Requires(post,preun):	/sbin/chkconfig
 Requires:	rc-scripts
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -30,16 +29,14 @@ Narzêdzie do rozdzielania przerwañ IRQ pomiêdzy wiele procesorów
 w celu zwiêkszenia wydajno¶ci systemu.
 
 %prep
-%setup -q -n %{name}
+%setup -q
 %patch0 -p1
-%patch1 -p2
-%patch2 -p2
-%patch3 -p2
+%patch1 -p1
 
 %build
 %{__make} \
 	CC="%{__cc}" \
-	CFLAGS="%{rpmcflags}%{?debug: debug.c -DDEBUG}" \
+	OPT="%{rpmcflags}%{?debug: debug.c -DDEBUG}" \
 	LDFLAGS="%{rpmldflags}"
 
 %install
@@ -47,7 +44,6 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man1,/etc/rc.d/init.d}
 
 install %{name} $RPM_BUILD_ROOT%{_sbindir}
-install %{name}.1 $RPM_BUILD_ROOT%{_mandir}/man1
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/%{name}
 
 %clean
@@ -65,7 +61,5 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc Changelog TODO
 %attr(755,root,root) %{_sbindir}/*
-%{_mandir}/man1/*
 %attr(754,root,root) /etc/rc.d/init.d/irqbalance
