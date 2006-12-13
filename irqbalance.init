@@ -1,13 +1,18 @@
 #!/bin/sh
 # $Id$
 #
-# irqbalance:	Sets up fbcon video modes.
+# irqbalance:	Balancing of IRQs between multiple CPUs
 #
 #
 # chkconfig:	2345 01 99
 # description:	irqbalance
 #
 # config:	/etc/sysconfig/irqbalance
+
+# useless on UP
+if [ "$(LC_ALL=C grep "^processor.*:.*[0-9]" /proc/cpuinfo | wc -l)" -lt 2 ]; then
+	exit 0
+fi
 
 # Source function library
 . /etc/rc.d/init.d/functions
@@ -17,48 +22,53 @@ if [ -f /etc/sysconfig/irqbalance ]; then
 	. /etc/sysconfig/irqbalance
 fi
 
-# useless on UP
-if [ "$(LC_ALL=C grep "^processor.*:.*[0-9]" /proc/cpuinfo | wc -l)" -lt 2 ]; then
-    exit 0
-fi
-
 is_yes "$IRQBALANCE_ONE_SHOT" && IRQBALANCE_OPT="${IRQBALANCE_OPT} oneshot"
 
+start() {
+	# Check if service is already running?
+	if [ ! -f /var/lock/subsys/irqbalance ]; then
+		msg_starting irqbalance
+		daemon irqbalance ${IRQBALANCE_OPT}
+		RETVAL=$?
+		[ $RETVAL -eq 0 ] && ! is_yes "$IRQBALANCE_ONE_SHOT" && touch /var/lock/subsys/irqbalance
+	else
+		msg_already_running irqbalance
+	fi
+}
+
+stop() {
+	if ! is_yes "$IRQBALANCE_ONE_SHOT"; then
+		if [ -f /var/lock/subsys/irqbalance ]; then
+			msg_stopping irqbalance
+			killproc irqbalance
+			rm -f /var/lock/subsys/irqbalance
+		else
+			msg_not_running irqbalance
+		fi
+	fi
+}
+
+RETVAL=0
 # See how we were called.
 case "$1" in
   start)
-	# Check if service is already running?
-	if [ ! -f /var/lock/subsys/irqbalance ]; then
-	    msg_starting irqbalance
-	    daemon irqbalance ${IRQBALANCE_OPT}
-	    RETVAL=$?
-	    [ $RETVAL -eq 0 ] && ! is_yes "$IRQBALANCE_ONE_SHOT" && touch /var/lock/subsys/irqbalance
-	else
-    	    msg_already_running irqbalance
-	fi
+  	start
 	;;
   stop)
-  	if ! is_yes "$IRQBALANCE_ONE_SHOT"; then
-		if [ -f /var/lock/subsys/irqbalance ]; then
-		    msg_stopping irqbalance
-    		    killproc irqbalance
-		    rm -f /var/lock/subsys/irqbalance
-		else
-		    msg_not_running irqbalance
-		fi
-	fi
+  	stop
 	;;
   status)
   	status irqbalance
-	RESULT=$?
+	RETVAL=$?
 	;;
   restart|force-reload)
-	$0 stop
-	$0 start
+	stop
+	start
 	;;
   *)
 	msg_usage "$0 {start|stop|restart|force-reload|status}"
 	exit 3
 esac
 
-exit 0
+exit $RETVAL
+# vim:ts=4:sw=4
