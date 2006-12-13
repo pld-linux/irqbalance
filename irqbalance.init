@@ -22,7 +22,7 @@ if [ "$(LC_ALL=C grep "^processor.*:.*[0-9]" /proc/cpuinfo | wc -l)" -lt 2 ]; th
     exit 0
 fi
 
-is_yes "$IRQBALANCE_ONE_SHOT" && IRQBALANCE_OPT="${IRQBALANCE_OPT} --oneshot"
+is_yes "$IRQBALANCE_ONE_SHOT" && IRQBALANCE_OPT="${IRQBALANCE_OPT} oneshot"
 
 # See how we were called.
 case "$1" in
