@@ -1,5 +1,5 @@
 Summary:	Balancing of IRQs between multiple CPUs
-Summary(pl):	Rozdzielanie IRQ pomiêdzy wiele procesorów
+Summary(pl.UTF-8):   Rozdzielanie IRQ pomiÄ™dzy wiele procesorÃ³w
 Name:		irqbalance
 Version:	0.55
 Release:	1
@@ -24,9 +24,9 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 irqbalance is a daemon that evenly distributes IRQ load across
 multiple CPUs for enhanced performance.
 
-%description -l pl
-Narzêdzie do rozdzielania przerwañ IRQ pomiêdzy wiele procesorów
-w celu zwiêkszenia wydajno¶ci systemu.
+%description -l pl.UTF-8
+NarzÄ™dzie do rozdzielania przerwaÅ„ IRQ pomiÄ™dzy wiele procesorÃ³w
+w celu zwiÄ™kszenia wydajnoÅ›ci systemu.
 
 %prep
 %setup -q
