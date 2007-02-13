@@ -1,5 +1,5 @@
 Summary:	Balancing of IRQs between multiple CPUs
-Summary(pl.UTF-8):   Rozdzielanie IRQ pomiędzy wiele procesorów
+Summary(pl.UTF-8):	Rozdzielanie IRQ pomiędzy wiele procesorów
 Name:		irqbalance
 Version:	0.55
 Release:	1
