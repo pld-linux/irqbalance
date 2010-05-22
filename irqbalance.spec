@@ -4,7 +4,7 @@ Name:		irqbalance
 Version:	0.55
 Release:	3
 License:	GPL
-Group:		Applications/System
+Group:		Daemons
 Source0:	http://www.irqbalance.org/releases/%{name}-%{version}.tar.gz
 # Source0-md5:	9f6b314ff1fdc14173abeb40592d4edf
 Source1:	%{name}.init
