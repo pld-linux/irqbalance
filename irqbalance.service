@@ -1,0 +1,12 @@
+[Unit]
+Description=Balancing of IRQs between multiple CPUs
+After=syslog.target auditd.service sssd.service ypbind.service
+
+[Service]
+EnvironmentFile=/etc/sysconfig/irqbalance                                                                                                                                
+ExecStart=/usr/sbin/irqbalance ${IRQBALANCE_OPT}
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+

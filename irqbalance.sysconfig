@@ -1,0 +1,5 @@
+# Customized settings for irqbalance
+
+### Additional options for irqbalance daemon
+#IRQBALANCE_OPT="oneshot"
+#IRQBALANCE_OPT="debug"
