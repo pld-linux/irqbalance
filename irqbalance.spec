@@ -72,6 +72,9 @@ fi
 %postun
 %systemd_reload
 
+%triggerpostun -- irqbalance < 0.55-4
+%systemd_trigger irqbalance.service
+
 %files
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_sbindir}/*
