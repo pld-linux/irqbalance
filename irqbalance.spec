@@ -2,7 +2,7 @@ Summary:	Balancing of IRQs between multiple CPUs
 Summary(pl.UTF-8):	Rozdzielanie IRQ pomiędzy wiele procesorów
 Name:		irqbalance
 Version:	0.55
-Release:	5
+Release:	6
 License:	GPL
 Group:		Daemons
 Source0:	http://www.irqbalance.org/releases/%{name}-%{version}.tar.gz
@@ -18,10 +18,12 @@ BuildRequires:	glib2-devel
 # due to -fpie
 BuildRequires:	gcc >= 5:3.4
 BuildRequires:	pkgconfig
-BuildRequires:	rpmbuild(macros) >= 1.268
+BuildRequires:	rpmbuild(macros) >= 1.647
 BuildRequires:	xorg-util-gccmakedep
 Requires(post,preun):	/sbin/chkconfig
+Requires(post,preun,postun):	systemd-units >= 38
 Requires:	rc-scripts
+Requires:	systemd-units >= 38
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
