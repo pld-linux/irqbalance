@@ -1,22 +1,21 @@
 Summary:	Balancing of IRQs between multiple CPUs
 Summary(pl.UTF-8):	Rozdzielanie IRQ pomiędzy wiele procesorów
 Name:		irqbalance
-Version:	0.55
-Release:	6
+Version:	1.0.3
+Release:	1
 License:	GPL
 Group:		Daemons
-Source0:	http://www.irqbalance.org/releases/%{name}-%{version}.tar.gz
-# Source0-md5:	9f6b314ff1fdc14173abeb40592d4edf
+Source0:	http://irqbalance.googlecode.com/files/irqbalance-1.0.3.tar.gz
+# Source0-md5:	6f246481d6295bcb9a79751c03207c96
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Source3:	%{name}.service
-Patch0:		%{name}-opt.patch
-Patch1:		%{name}-pie.patch
-Patch2:		%{name}-cputree-parse.patch
-URL:		http://www.irqbalance.org/
+URL:		http://code.google.com/p/irqbalance/
 BuildRequires:	glib2-devel
 # due to -fpie
 BuildRequires:	gcc >= 5:3.4
+BuildRequires:	libcap-ng-devel
+BuildRequires:	numactl-devel
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.647
 BuildRequires:	xorg-util-gccmakedep
@@ -36,22 +35,19 @@ w celu zwiększenia wydajności systemu.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
-%patch2 -p2
 
 %build
-%{__make} \
-	CC="%{__cc}" \
-	OPT="%{rpmcflags}%{?debug: debug.c -DDEBUG}" \
-	LDFLAGS="%{rpmldflags}"
+%configure \
+	--with-libcap-ng=yes
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man1,%{systemdunitdir}} \
+install -d $RPM_BUILD_ROOT%{systemdunitdir} \
 	$RPM_BUILD_ROOT/etc/{rc.d/init.d,sysconfig}
 
-install %{name} $RPM_BUILD_ROOT%{_sbindir}
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT
+
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/%{name}
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/%{name}
 install %{SOURCE3} $RPM_BUILD_ROOT%{systemdunitdir}
@@ -83,3 +79,4 @@ fi
 %attr(754,root,root) /etc/rc.d/init.d/irqbalance
 %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/%{name}
 %{systemdunitdir}/irqbalance.service
+%{_mandir}/man1/irqbalance.1*
