@@ -5,7 +5,7 @@ Version:	1.0.3
 Release:	1
 License:	GPL
 Group:		Daemons
-Source0:	http://irqbalance.googlecode.com/files/irqbalance-1.0.3.tar.gz
+Source0:	http://irqbalance.googlecode.com/files/%{name}-%{version}.tar.gz
 # Source0-md5:	6f246481d6295bcb9a79751c03207c96
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
@@ -30,8 +30,8 @@ irqbalance is a daemon that evenly distributes IRQ load across
 multiple CPUs for enhanced performance.
 
 %description -l pl.UTF-8
-Narzędzie do rozdzielania przerwań IRQ pomiędzy wiele procesorów
-w celu zwiększenia wydajności systemu.
+Narzędzie do rozdzielania przerwań IRQ pomiędzy wiele procesorów w
+celu zwiększenia wydajności systemu.
 
 %prep
 %setup -q
