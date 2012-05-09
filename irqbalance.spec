@@ -3,7 +3,7 @@ Summary(pl.UTF-8):	Rozdzielanie IRQ pomiędzy wiele procesorów
 Name:		irqbalance
 Version:	1.0.3
 Release:	1
-License:	GPL
+License:	GPL v2
 Group:		Daemons
 Source0:	http://irqbalance.googlecode.com/files/%{name}-%{version}.tar.gz
 # Source0-md5:	6f246481d6295bcb9a79751c03207c96
@@ -11,16 +11,16 @@ Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Source3:	%{name}.service
 URL:		http://code.google.com/p/irqbalance/
-BuildRequires:	glib2-devel
+BuildRequires:	glib2-devel >= 1:2.28
 # due to -fpie
 BuildRequires:	gcc >= 5:3.4
 BuildRequires:	libcap-ng-devel
 BuildRequires:	numactl-devel
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.647
-BuildRequires:	xorg-util-gccmakedep
 Requires(post,preun):	/sbin/chkconfig
 Requires(post,preun,postun):	systemd-units >= 38
+Requires:	glib2 >= 1:2.28
 Requires:	rc-scripts
 Requires:	systemd-units >= 38
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
