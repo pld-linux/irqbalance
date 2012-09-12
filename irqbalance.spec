@@ -1,8 +1,11 @@
+#
+%bcond_without	numa	# disable NUMA support
+#
 Summary:	Balancing of IRQs between multiple CPUs
 Summary(pl.UTF-8):	Rozdzielanie IRQ pomiędzy wiele procesorów
 Name:		irqbalance
 Version:	1.0.4
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Daemons
 Source0:	http://irqbalance.googlecode.com/files/%{name}-%{version}.tar.bz2
@@ -15,7 +18,7 @@ BuildRequires:	glib2-devel >= 1:2.28
 # due to -fpie
 BuildRequires:	gcc >= 5:3.4
 BuildRequires:	libcap-ng-devel
-BuildRequires:	numactl-devel
+%{?with_numa:BuildRequires:	numactl-devel}
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.647
 Requires(post,preun):	/sbin/chkconfig
@@ -38,6 +41,7 @@ celu zwiększenia wydajności systemu.
 
 %build
 %configure \
+	%{!?with_numa:--disable-numa} \
 	--with-libcap-ng=yes
 
 %install
