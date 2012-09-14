@@ -1,4 +1,5 @@
 #
+# Conditional build:
 %bcond_without	numa	# disable NUMA support
 #
 Summary:	Balancing of IRQs between multiple CPUs
@@ -42,7 +43,7 @@ celu zwiększenia wydajności systemu.
 %build
 %configure \
 	%{!?with_numa:--disable-numa} \
-	--with-libcap-ng=yes
+	--with-libcap-ng
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -79,7 +80,8 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_sbindir}/*
+%doc AUTHORS
+%attr(755,root,root) %{_sbindir}/irqbalance
 %attr(754,root,root) /etc/rc.d/init.d/irqbalance
 %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/%{name}
 %{systemdunitdir}/irqbalance.service
