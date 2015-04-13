@@ -5,17 +5,20 @@
 Summary:	Balancing of IRQs between multiple CPUs
 Summary(pl.UTF-8):	Rozdzielanie IRQ pomiędzy wiele procesorów
 Name:		irqbalance
-Version:	1.0.7
+Version:	1.0.9
 Release:	1
 License:	GPL v2
 Group:		Daemons
-Source0:	http://irqbalance.googlecode.com/files/%{name}-%{version}.tar.bz2
-# Source0-md5:	09cb0ab81ab4f3401a7ff5dabc158a1e
+Source0:	https://github.com/Irqbalance/irqbalance/archive/v%{version}.tar.gz
+# Source0-md5:	30174d3941c5452a1e4ecee394a76ff8
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Source3:	%{name}.service
-URL:		http://code.google.com/p/irqbalance/
+URL:		https://github.com/Irqbalance/irqbalance
+BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	glib2-devel >= 1:2.28
+BuildRequires:	libtool
 # due to -fpie
 BuildRequires:	gcc >= 5:3.4
 BuildRequires:	libcap-ng-devel
@@ -41,6 +44,11 @@ celu zwiększenia wydajności systemu.
 %setup -q
 
 %build
+%{__libtoolize}
+%{__aclocal}
+%{__autoconf}
+%{__autoheader}
+%{__automake}
 %configure \
 	%{!?with_numa:--disable-numa} \
 	--with-libcap-ng
@@ -53,9 +61,9 @@ install -d $RPM_BUILD_ROOT%{systemdunitdir} \
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/%{name}
-install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/%{name}
-install %{SOURCE3} $RPM_BUILD_ROOT%{systemdunitdir}
+cp -p %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/%{name}
+cp -p %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/%{name}
+cp -p %{SOURCE3} $RPM_BUILD_ROOT%{systemdunitdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
