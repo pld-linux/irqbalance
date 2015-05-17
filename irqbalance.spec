@@ -1,6 +1,7 @@
 #
 # Conditional build:
 %bcond_without	numa	# disable NUMA support
+%bcond_with	systemd	# systemd journal support
 #
 Summary:	Balancing of IRQs between multiple CPUs
 Summary(pl.UTF-8):	Rozdzielanie IRQ pomiędzy wiele procesorów
@@ -15,7 +16,7 @@ Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Source3:	%{name}.service
 URL:		https://github.com/Irqbalance/irqbalance
-BuildRequires:	autoconf
+BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
 BuildRequires:	glib2-devel >= 1:2.28
 BuildRequires:	libtool
@@ -25,6 +26,7 @@ BuildRequires:	libcap-ng-devel
 %{?with_numa:BuildRequires:	numactl-devel}
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.647
+%{?with_systemd:BuildRequires:	systemd-devel}
 Requires(post,preun):	/sbin/chkconfig
 Requires(post,preun,postun):	systemd-units >= 38
 Requires:	glib2 >= 1:2.28
@@ -51,7 +53,8 @@ celu zwiększenia wydajności systemu.
 %{__automake}
 %configure \
 	%{!?with_numa:--disable-numa} \
-	--with-libcap-ng
+	--with-libcap-ng \
+	%{?with_systemd:--with-systemd}
 
 %install
 rm -rf $RPM_BUILD_ROOT
