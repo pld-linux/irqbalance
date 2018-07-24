@@ -6,12 +6,13 @@
 Summary:	Balancing of IRQs between multiple CPUs
 Summary(pl.UTF-8):	Rozdzielanie IRQ pomiędzy wiele procesorów
 Name:		irqbalance
-Version:	1.3.0
+Version:	1.4.0
 Release:	1
 License:	GPL v2
 Group:		Daemons
-Source0:	https://github.com/Irqbalance/irqbalance/archive/v%{version}.tar.gz
-# Source0-md5:	53ee393adcfbc8e5ab23cbbd920df687
+#Source0Download: https://github.com/Irqbalance/irqbalance/releases
+Source0:	https://github.com/Irqbalance/irqbalance/archive/v%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	26ee6db57c4509737e541e98773a39f5
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Source3:	%{name}.service
@@ -23,6 +24,7 @@ BuildRequires:	libtool
 # due to -fpie
 BuildRequires:	gcc >= 5:3.4
 BuildRequires:	libcap-ng-devel
+BuildRequires:	ncurses-devel >= 5
 %{?with_numa:BuildRequires:	numactl-devel}
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.647
