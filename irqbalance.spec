@@ -6,17 +6,17 @@
 Summary:	Balancing of IRQs between multiple CPUs
 Summary(pl.UTF-8):	Rozdzielanie IRQ pomiędzy wiele procesorów
 Name:		irqbalance
-Version:	1.5.0
+Version:	1.6.0
 Release:	1
 License:	GPL v2
 Group:		Daemons
 #Source0Download: https://github.com/Irqbalance/irqbalance/releases
 Source0:	https://github.com/Irqbalance/irqbalance/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	3daa34066d28e2ff44fdac9c39952822
+# Source0-md5:	1d0d77b998f562ef8dfe4238b3d53490
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Source3:	%{name}.service
-URL:		https://github.com/Irqbalance/irqbalance
+URL:		https://irqbalance.github.io/irqbalance/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
 BuildRequires:	glib2-devel >= 1:2.28
